@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Premier pas - ERICKA</title>
+  <script src="https://kit.fontawesome.com/a07d05399.js" crossorigin="anonymous"></script>
+  <style>
+    /* Base reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Inter", -apple-system, Roboto, Helvetica, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #f5f5f5;
+    }
+
+    .page-container {
+      width: 100%;
+      max-width: 480px;
+      background-color: #fff;
+      border-radius: 30px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      position: relative;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 10px 15px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .sidebar ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .sidebar li a {
+      text-decoration: none;
+      color: #333;
+      font-size: 14px;
+      font-weight: 600;
+      transition: color 0.2s;
+    }
+
+    .sidebar li a:hover {
+      color: #4373d8;
+    }
+
+    /* Navigation */
+    .navigation {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .logo {
+      aspect-ratio: 4.18;
+      object-fit: contain;
+      object-position: center;
+      width: 65px;
+      flex-shrink: 0;
+    }
+
+    .menu-icon {
+      aspect-ratio: 1;
+      object-fit: contain;
+      object-position: center;
+      width: 23px;
+      flex-shrink: 0;
+      visibility: hidden;
+    }
+
+    /* Content */
+    .content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      margin-top: 40px;
+    }
+
+    .main-image {
+      aspect-ratio: 1.04;
+      object-fit: contain;
+      object-position: center;
+      width: 145px;
+      max-width: 100%;
+    }
+
+    .title {
+      color: #4373d8;
+      text-align: center;
+      font-family: "SF Pro Display", -apple-system, Roboto, Helvetica, sans-serif;
+      font-size: 28px;
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: -0.64px;
+      margin-top: 60px;
+    }
+
+    .description {
+      color: #1b1f26;
+      text-align: center;
+      font-family: "Inter", -apple-system, Roboto, Helvetica, sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      line-height: 14px;
+      letter-spacing: 0.2px;
+      margin-top: 15px;
+    }
+
+    /* Footer */
+    .action-footer {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      margin-top: 150px;
+    }
+
+    .continue-button {
+      border: none;
+      cursor: pointer;
+      border-radius: 20px;
+      background-color: #090909;
+      min-height: 50px;
+      width: 100%;
+      max-width: 340px;
+      padding: 13px 15px;
+      font-family: "Inter", -apple-system, Roboto, Helvetica, sans-serif;
+      font-size: 16px;
+      color: #fff;
+      font-weight: 700;
+      white-space: nowrap;
+      text-align: center;
+      letter-spacing: 0.2px;
+      line-height: 1.6;
+    }
+
+    .continue-button:hover {
+      background-color: #333333;
+    }
+
+    .continue-button:active {
+      background-color: #000000;
+      transform: translateY(1px);
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=SF+Pro+Display:wght@500;700&display=swap" rel="stylesheet" />
+</head>
+
+<body>
+  <main class="page-container">
+
+    <!-- Sidebar -->
+    <!-- <div class="sidebar">
+      <ul>
+        <li><a href="#">Échanges</a></li>
+        <li><a href="#">Historique</a></li>
+        <li><a href="#">Outils</a></li>
+      </ul>
+    </div> -->
+
+    <!-- Navigation -->
+    <nav class="navigation">
+      <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/3db4ef1621addb61d2bddea6783fe667a40d68e0?placeholderIfAbsent=true&apiKey=0c6e7759a5d8430c9f430f3ca8bbdf00" class="logo" alt="Logo" />
+      <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/e332f709bc54cd7b905ba438a1bf5c154160c423?placeholderIfAbsent=true&apiKey=0c6e7759a5d8430c9f430f3ca8bbdf00" class="menu-icon" alt="Menu" />
+    </nav>
+
+    <!-- Content -->
+    <section class="content">
+      <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/5cca49b771f78ee2abf7e99ef68a435e0d8f8bda?placeholderIfAbsent=true&apiKey=0c6e7759a5d8430c9f430f3ca8bbdf00" class="main-image" alt="ERICKA assistant" />
+      <h1 class="title">Premier pas</h1>
+      <p class="description">
+        Commencez à discuter avec ERICKA dès maintenant.
+        <br />
+        Vous pouvez me poser toutes vos questions.
+        <br />
+        Je vous aide dans vos études.
+      </p>
+    </section>
+
+    <!-- Footer -->
+    <footer class="action-footer">
+      <button class="continue-button">Continuer</button>
+    </footer>
+
+  </main>
+</body>
+</html>

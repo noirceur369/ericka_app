@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Code d'invitation</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=SF+Pro+Display:wght@400;500;700&display=swap");
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Inter", -apple-system, Roboto, Helvetica, sans-serif;
+        font-weight: 700;
+        line-height: 1.6;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background-color: #f5f5f5;
+      }
+
+      .invitation-container {
+        border-radius: 15px;
+        background-color: #ffffff;
+        display: flex;
+        max-width: 390px;
+        width: 100%;
+        padding: 23px 15px;
+        flex-direction: column;
+        align-items: center;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      }
+
+      .invitation-title {
+        align-self: stretch;
+        color: #090909;
+        font-family: "SF Pro Display", -apple-system, Roboto, Helvetica, sans-serif;
+        font-size: 32px;
+        line-height: 1;
+        letter-spacing: -0.64px;
+        font-weight: 700;
+      }
+
+      .input-section {
+        display: flex;
+        margin-top: 25px;
+        width: 100%;
+        max-width: 360px;
+        flex-direction: column;
+        align-items: stretch;
+        font-size: 11px;
+        color: #4c5359;
+        font-weight: 400;
+        text-align: center;
+        letter-spacing: 0.2px;
+      }
+
+      .input-label {
+        align-self: flex-start;
+        text-align: left;
+      }
+
+      .code-input {
+        border-radius: 15px;
+        border: 1px solid #e0e0e0;
+        display: flex;
+        min-height: 50px;
+        margin-top: 10px;
+        width: 100%;
+        padding: 0 15px;
+        font-family: "Inter", -apple-system, Roboto, Helvetica, sans-serif;
+        font-size: 16px;
+        outline: none;
+      }
+
+      .code-input:focus {
+        border-color: #4373d8;
+      }
+
+      .continue-button {
+        align-self: stretch;
+        border: none;
+        border-radius: 20px;
+        opacity: 0.4;
+        background-color: #090909;
+        margin-top: 25px;
+        min-height: 55px;
+        width: 100%;
+        padding: 13px 15px;
+        font-size: 18px;
+        color: #fff;
+        white-space: nowrap;
+        text-align: center;
+        letter-spacing: 0.2px;
+        font-family: "Inter", -apple-system, Roboto, Helvetica, sans-serif;
+        font-weight: 700;
+        cursor: not-allowed;
+      }
+
+      .continue-button:not([disabled]) {
+        opacity: 1;
+        cursor: pointer;
+      }
+
+      .no-code-button {
+        align-self: stretch;
+        border: none;
+        background: transparent;
+        border-radius: 20px;
+        margin-top: 25px;
+        min-height: 55px;
+        width: 100%;
+        padding: 18px 15px;
+        font-size: 14px;
+        color: #4373d8;
+        font-weight: 500;
+        text-align: center;
+        line-height: 1;
+        font-family: "Inter", -apple-system, Roboto, Helvetica, sans-serif;
+        cursor: pointer;
+      }
+
+      .no-code-button:hover {
+        background-color: rgba(67, 115, 216, 0.05);
+      }
+    </style>
+  </head>
+  <body>
+    <main class="invitation-container">
+      <h1 class="invitation-title">Parrainage</h1>
+      <section class="input-section">
+        <label for="invitation-code" class="input-label">Entrez le code d'invitation</label>
+        <input
+          type="text"
+          id="invitation-code"
+          class="code-input"
+          aria-label="Code d'invitation"
+        />
+      </section>
+      <button class="continue-button" disabled>Continuer</button>
+      <button class="no-code-button">Je n'ai pas de code</button>
+    </main>
+
+    <script>
+      const codeInput = document.getElementById("invitation-code");
+      const continueButton = document.querySelector(".continue-button");
+
+      codeInput.addEventListener("input", function () {
+        if (this.value.trim() !== "") {
+          continueButton.disabled = false;
+        } else {
+          continueButton.disabled = true;
+        }
+      });
+
+      continueButton.addEventListener("click", function () {
+        if (!this.disabled) {
+          // Redirige vers la page creation_passwd.html
+          window.location.href = "creation_passwd.html";
+        }
+      });
+    </script>
+  </body>
+</html>

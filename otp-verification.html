@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OTP Verification</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=SF+Pro+Display:wght@700&display=swap"
+        rel="stylesheet"
+    />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Inter", sans-serif;
+        }
+
+        .verification-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f5f5f5;
+        }
+
+        .verification-card {
+            width: 350px;
+            height: 502px;
+            border-radius: 27px;
+            box-shadow: 0px 13.316px 55.484px 0px rgba(37, 31, 48, 0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 34px 0;
+            background-color: #fff;
+        }
+
+        @media (max-width: 991px) {
+            .verification-card {
+                width: 300px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .verification-card {
+                width: 260px;
+            }
+        }
+
+        .verification-title {
+            font-family: "SF Pro Display", sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: #323142;
+            line-height: 40px;
+            letter-spacing: -0.64px;
+            margin-bottom: 35px;
+        }
+
+        .verification-message {
+            font-size: 11px;
+            font-weight: 400;
+            color: #090909;
+            line-height: 17.6px;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .verification-email {
+            font-size: 14px;
+            font-weight: 700;
+            color: #4373d8;
+            line-height: 22.4px;
+            text-align: center;
+            margin-bottom: 54px;
+        }
+
+        .otp-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .otp-input {
+            width: 46px;
+            height: 45px;
+            border-radius: 10px;
+            border: 1.5px solid #c2c3cb;
+            text-align: center;
+            font-size: 18px;
+        }
+
+        @media (max-width: 991px) {
+            .otp-input {
+                width: 40px;
+                height: 40px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .otp-input {
+                width: 35px;
+                height: 35px;
+            }
+        }
+
+        .resend-code {
+            font-size: 11px;
+            font-weight: 400;
+            color: #4373d8;
+            line-height: 17.6px;
+            text-align: center;
+            margin-bottom: 79px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            text-decoration: none; /* Remove default link styling */
+        }
+
+        .confirm-button {
+            width: 320px;
+            height: 55px;
+            border-radius: 20px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #fff;
+            line-height: 28.8px;
+            cursor: pointer;
+            background-color: #090909;
+            border: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none; /* Remove default link styling */
+        }
+
+        .confirm-button:hover {
+            background-color: #1a1a1a; /* Slightly darker on hover */
+        }
+
+        @media (max-width: 991px) {
+            .confirm-button {
+                width: 280px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .confirm-button {
+                width: 240px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <section class="verification-container">
+        <article class="verification-card">
+            <h1 class="verification-title">Vérification</h1>
+            <p class="verification-message">
+                Nous avons envoyé un code OTP à votre mail
+            </p>
+            <p class="verification-email">email@gmail.com</p>
+            <div class="otp-container">
+                <input
+                    type="text"
+                    class="otp-input"
+                    maxlength="1"
+                    inputmode="numeric"
+                    aria-label="Premier chiffre du code OTP"
+                />
+                <input
+                    type="text"
+                    class="otp-input"
+                    maxlength="1"
+                    inputmode="numeric"
+                    aria-label="Deuxième chiffre du code OTP"
+                />
+                <input
+                    type="text"
+                    class="otp-input"
+                    maxlength="1"
+                    inputmode="numeric"
+                    aria-label="Troisième chiffre du code OTP"
+                />
+                <input
+                    type="text"
+                    class="otp-input"
+                    maxlength="1"
+                    inputmode="numeric"
+                    aria-label="Quatrième chiffre du code OTP"
+                />
+                <input
+                    type="text"
+                    class="otp-input"
+                    maxlength="1"
+                    inputmode="numeric"
+                    aria-label="Cinquième chiffre du code OTP"
+                />
+            </div>
+            <button class="resend-code" id="resendButton">Renvoyer le code (<span id="countdown">60</span>s)</button>
+            <a href="status-verification.html" class="confirm-button">Confirmer</a>
+        </article>
+    </section>
+
+    <script>
+        // Add auto-focus to next input when a digit is entered
+        const otpInputs = document.querySelectorAll(".otp-input");
+
+        otpInputs.forEach((input, index) => {
+            input.addEventListener("input", (e) => {
+                if (e.target.value && index < otpInputs.length - 1) {
+                    otpInputs[index + 1].focus();
+                }
+            });
+
+            // Allow backspace to go to previous input
+            input.addEventListener("keydown", (e) => {
+                if (e.key === "Backspace" && !e.target.value && index > 0) {
+                    otpInputs[index - 1].focus();
+                }
+            });
+        });
+
+        // Countdown timer for resend button
+        const resendButton = document.getElementById("resendButton");
+        const countdownSpan = document.getElementById("countdown");
+        let timeLeft = 60;
+
+        function updateCountdown() {
+            countdownSpan.textContent = timeLeft;
+            timeLeft--;
+
+            if (timeLeft < 0) {
+                clearInterval(countdownInterval);
+                resendButton.innerHTML = '<a href="">Renvoyer le code</a>';
+                resendButton.disabled = false; // Enable the button
+            }
+        }
+
+        const countdownInterval = setInterval(updateCountdown, 1000);
+
+        // Disable the resend button initially
+        resendButton.disabled = true;
+    </script>
+</body>
+</html>

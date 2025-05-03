@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Créer votre profil</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=SF+Pro+Display:wght@700&display=swap"
+        rel="stylesheet"
+    />
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Inter", sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f5f5f5;
+        }
+
+        .profile-card {
+            width: 360px;
+            border-radius: 27px;
+            box-shadow: 0px 13.316px 55.484px 0px rgba(37, 31, 48, 0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px;
+            background-color: #fff;
+            gap: 20px; /* Spacing between elements */
+        }
+
+        .profile-heading {
+            font-family:
+                "SF Pro Display",
+                -apple-system,
+                Roboto,
+                Helvetica,
+                sans-serif;
+            font-size: 32px;
+            color: #090909;
+            font-weight: 700;
+            letter-spacing: -0.64px;
+            line-height: 1;
+            margin-top: 0;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .upload-container {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            margin-bottom: 20px;
+            cursor: pointer;
+        }
+
+        .avatar-placeholder {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background-color: #e0e0e0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .avatar-placeholder svg {
+            width: 40px;
+            height: 40px;
+            fill: #b3b3b3; /* Couleur de l'avatar transparent */
+        }
+
+        .camera-icon-overlay {
+            position: absolute;
+            bottom: -5px;
+            right: -5px;
+            background-color: #4373d8;
+            color: #fff;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 16px;
+            border: 2px solid #fff; /* Bordure blanche autour de l'icône */
+        }
+
+        .camera-icon-overlay svg {
+            width: 16px;
+            height: 16px;
+            fill: #fff;
+        }
+
+        #profileImageInput {
+            display: none;
+        }
+
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+        }
+
+        .form-field {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .field-label {
+            font-family: "Inter", sans-serif;
+            font-size: 11px;
+            color: rgba(76, 83, 89, 1);
+            line-height: 160%;
+            letter-spacing: 0.2px;
+        }
+
+        .field-label.disabled {
+            opacity: 0.3;
+        }
+
+        .input-field {
+            display: flex;
+            align-items: center;
+            height: 50px;
+            padding: 0 10px;
+            border: 1px solid rgba(0, 0, 0, 0.12);
+            border-radius: 15px;
+            font-family: "Inter", sans-serif;
+            font-size: 11px;
+            color: rgba(9, 9, 9, 1);
+            line-height: 160%;
+            letter-spacing: 0.2px;
+            width: 100%;
+        }
+
+        .date-field-container {
+            position: relative;
+            width: 100%;
+        }
+
+        .arrow-container {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            width: 100%;
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none; /* Prevent interaction with the arrow */
+        }
+
+        .arrow-svg {
+            width: 20px;
+            height: 20px;
+            transform: rotate(-90deg);
+            fill: rgba(0, 0, 0, 0.5);
+        }
+
+        .privacy-notice-container {
+            display: flex;
+            width: 100%;
+            height: 83px;
+            padding: 10px;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            border-radius: 20px;
+            background-color: rgba(67, 115, 216, 0.1);
+            text-align: center;
+        }
+
+        .privacy-notice-text {
+            color: rgba(76, 83, 89, 1);
+            font-family: "Inter", sans-serif;
+            font-size: 11px;
+            font-weight: 400;
+            line-height: 160%;
+            letter-spacing: 0.2px;
+        }
+
+        .primary-button {
+            align-self: stretch;
+            border-radius: 20px;
+            background-color: #090909;
+            padding: 13px 15px;
+            gap: 10px;
+            font-family:
+                "Inter",
+                -apple-system,
+                Roboto,
+                Helvetica,
+                sans-serif;
+            font-size: 18px;
+            color: #fff;
+            font-weight: 700;
+            white-space: nowrap;
+            text-align: center;
+            letter-spacing: 0.2px;
+            line-height: 1.6;
+            border: none;
+            cursor: pointer;
+            display: inline-block;
+            transition: background-color 0.2s ease;
+            text-decoration: none; /* Remove default link styling if used as <a> */
+        }
+
+        .primary-button:hover {
+            background-color: #333333;
+        }
+
+        .primary-button:focus {
+            outline: 2px solid #4d90fe;
+            outline-offset: 2px;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 991px) {
+            .profile-card {
+                width: 90%;
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .profile-card {
+                width: 95%;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-card">
+        <h1 class="profile-heading">Créer votre profil</h1>
+
+        <div class="upload-container" onclick="document.getElementById('profileImageInput').click();">
+            <div class="avatar-placeholder">
+                <svg viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M12,14C9.33,14 7,16.33 7,19V20H17V19C17,16.33 14.67,14 12,14M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M18,8A2,2 0 0,1 20,10V20A2,2 0 0,1 18,22H6A2,2 0 0,1 4,20V10A2,2 0 0,1 6,8H18Z" />
+                </svg>
+                <img class="avatar-placeholder" id="uploadedProfileImage" src="" alt="Votre photo de profil" style="display: none; border-radius: 50%; object-fit: cover;">
+            </div>
+            <div class="camera-icon-overlay">
+                <svg viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M12,12C14.21,12 16,10.21 16,8C16,5.79 14.21,4 12,4C9.79,4 8,5.79 8,8C8,10.21 9.79,12 12,12M12,14C9.33,14 7,16.33 7,19V20H17V19C17,16.33 14.67,14 12,14M18,8A2,2 0 0,1 20,10V20A2,2 0 0,1 18,22H6A2,2 0 0,1 4,20V10A2,2 0 0,1 6,8H18Z" />
+                </svg>
+            </div>
+        </div>
+        <input type="file" id="profileImageInput" accept="image/*" onchange="loadFile(event)">
+
+        <form class="form-container">
+            <div class="form-field">
+                <label for="name" class="field-label">Nom et prénom(s)</label>
+                <input
+                    type="text"
+                    id="name"
+                    class="input-field"
+                    aria-label="Nom et prénom(s)"
+                />
+            </div>
+
+            <div class="form-field">
+                <label for="email" class="field-label disabled">Email</label>
+                <input
+                    type="email"
+                    id="email"
+                    class="input-field"
+                    value="email@gmail.com"
+                    aria-label="Email"
+                    disabled
+                />
+            </div>
+
+            <div class="form-field">
+                <label for="birthdate" class="field-label">Date de naissance</label>
+                <div class="input-field date-field-container">
+                    <input
+                        type="date"
+                        id="birthdate"
+                        class="input-field"
+                        aria-label="Date de naissance"
+                    />
+                    <div class="arrow-container">
+                        <div>
+                            <div>
+                                <svg
+                                    class="arrow-svg"
+                                    viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"
+                                        fill="currentColor"
+                                    />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-field">
+                <label for="whatsapp" class="field-label">Numéro WhatsApp</label>
+                <input
+                    type="tel"
+                    id="whatsapp"
+                    class="input-field"
+                    placeholder="00 |"
+                    aria-label="Numéro WhatsApp"
+                />
+            </div>
+        </form>
+
+        <section class="privacy-notice-container">
+            <p class="privacy-notice-text">
+                Ne vous inquiétez pas, vous seul pouvez voir vos données personnelles.
+                Personne d'autre ne pourra les consulter. Vous pouvez également ignorer
+                cette étape pour le moment.
+            </p>
+        </section>
+
+        <a href="invitation.html" class="primary-button">Continuer</a>
+    </div>
+
+    <script>
+        const profileImageInput = document.getElementById('profileImageInput');
+        const uploadedProfileImage = document.getElementById('uploadedProfileImage');
+        const uploadContainer = document.querySelector('.upload-container');
+
+        uploadContainer.addEventListener('click', () => {
+            profileImageInput.click();
+        });
+
+        function loadFile(event) {
+            if (event.target.files && event.target.files[0]) {
+                uploadedProfileImage.src = URL.createObjectURL(event.target.files[0]);
+                uploadedProfileImage.style.display = 'block';
+                uploadedProfileImage.onload = function() {
+                    URL.revokeObjectURL(uploadedProfileImage.src) // free memory
+                }
+                // Hide the avatar placeholder when an image is uploaded
+                document.querySelector('.avatar-placeholder svg').style.display = 'none';
+            } else {
+                // If no file is selected (e.g., user cancels), show the placeholder again
+                uploadedProfileImage.style.display = 'none';
+                document.querySelector('.avatar-placeholder svg').style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>

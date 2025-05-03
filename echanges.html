@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Interface Demo</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Inter", -apple-system, Roboto, Helvetica, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background-color: #f5f5f5;
+        flex-direction: column;
+        margin: 0;
+      }
+
+      .container {
+        background-color: #fff;
+        border-radius: 30px;
+        width: 100%;
+        max-width: 500px;
+        height: 100vh;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+      }
+
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+      }
+
+      .header-logo,
+      .settings-icon {
+        width: 28px;
+        height: 28px;
+        object-fit: contain;
+      }
+
+      .main-logo {
+        width: 90px;
+        margin: 20px auto;
+        display: block;
+      }
+
+      .features {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 20px;
+      }
+
+      .feature-card {
+        background-color: rgba(67, 115, 216, 0.1);
+        border-radius: 15px;
+        padding: 12px;
+        text-align: center;
+        font-size: 13px;
+        color: #1b1f26;
+      }
+
+      .chat-area {
+        flex: 1;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding-bottom: 10px;
+      }
+
+      .chat-message,
+      .file-message,
+      .voice-message {
+        background-color: #e2e2e2;
+        padding: 10px;
+        border-radius: 10px;
+        max-width: 80%;
+        font-size: 14px;
+        color: #333;
+        word-wrap: break-word;
+      }
+
+      .file-preview {
+        background-color: #f0f0f0;
+        padding: 10px;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        text-align: center;
+        position: relative;
+      }
+
+      .file-name {
+        font-size: 14px;
+        color: #333;
+      }
+
+      .remove-file {
+        position: absolute;
+        top: 8px;
+        right: 12px;
+        font-size: 16px;
+        color: #ff4d4d;
+        cursor: pointer;
+      }
+
+      .input-section {
+        margin-top: 10px;
+      }
+
+      .input-container {
+        display: flex;
+        align-items: center;
+        background-color: #f5f5f5;
+        border-radius: 15px;
+        padding: 8px 12px;
+        margin-bottom: 8px;
+      }
+
+      .user-input {
+        flex: 1;
+        border: none;
+        background: transparent;
+        outline: none;
+        font-size: 14px;
+        color: #1b1f26;
+      }
+
+      .send-button {
+        width: 26px;
+        height: 26px;
+        object-fit: contain;
+        opacity: 0.5;
+        cursor: not-allowed;
+        transition: opacity 0.3s;
+      }
+
+      .send-button.active {
+        opacity: 1;
+        cursor: pointer;
+      }
+
+      .action-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .action-icon {
+        width: 26px;
+        height: 26px;
+        object-fit: contain;
+        cursor: pointer;
+      }
+
+      #file-upload {
+        display: none;
+      }
+
+      @media (max-width: 480px) {
+        .container {
+          border-radius: 20px;
+          padding: 15px;
+        }
+
+        .main-logo {
+          width: 70px;
+        }
+
+        .feature-card {
+          font-size: 12px;
+        }
+
+        .send-button,
+        .action-icon {
+          width: 24px;
+          height: 24px;
+        }
+
+        .user-input {
+          font-size: 13px;
+        }
+      }
+    </style>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <main class="container">
+      <header class="header">
+        <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/a6c2b55df22386648785c7468cc4252ceea4e55d?apiKey=..." alt="Logo" class="header-logo" />
+        <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/e332f709bc54cd7b905ba438a1bf5c154160c423?apiKey=..." alt="Settings" class="settings-icon" />
+      </header>
+
+      <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/1681d395f5dfaa65851af5951e0b242de322fdd0?apiKey=..." alt="Main logo" class="main-logo" />
+
+      <section class="features" id="features">
+        <div class="feature-card">Se souvient de ce que l'utilisateur a dit plus tôt dans la conversation</div>
+        <div class="feature-card">Connaissances illimitées du monde et des événements</div>
+        <div class="feature-card">Peut résoudre tous vos problèmes de vos matières scientifiques</div>
+      </section>
+
+      <div class="chat-area" id="chat-area"></div>
+
+      <footer class="input-section">
+        <div id="file-preview" class="file-preview" style="display: none;">
+          <span id="file-name" class="file-name"></span>
+          <span id="remove-file" class="remove-file">×</span>
+        </div>
+
+        <form id="chat-form" class="input-container">
+          <input type="text" id="user-input" class="user-input" placeholder="Demande moi quelque chose..." />
+          <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/ae54fb7218d2da717bdf201da45063030a092e0b?apiKey=..." alt="Envoyer" id="send-button" class="send-button" />
+        </form>
+
+        <div class="action-bar">
+          <label for="file-upload">
+            <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/8f6241ab6e34004b0337b1b39f9c1a7641f47758?apiKey=..." alt="Uploader" class="action-icon" />
+          </label>
+          <input type="file" id="file-upload" />
+          <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/96e7d532aee4946bfd7a2550a3bf9cfd7c1e4a1a?apiKey=..." alt="Microphone" class="action-icon" onclick="startRecording()" />
+        </div>
+      </footer>
+    </main>
+
+    <script>
+      const userInput = document.getElementById('user-input');
+      const sendButton = document.getElementById('send-button');
+      const chatForm = document.getElementById('chat-form');
+      const fileInput = document.getElementById('file-upload');
+      const filePreview = document.getElementById('file-preview');
+      const fileName = document.getElementById('file-name');
+      const removeFileButton = document.getElementById('remove-file');
+      const featuresSection = document.getElementById('features');
+      const chatArea = document.getElementById('chat-area');
+
+      let mediaRecorder;
+      let audioChunks = [];
+
+      userInput.addEventListener('input', () => {
+        sendButton.classList.toggle('active', userInput.value.trim().length > 0);
+      });
+
+      chatForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (userInput.value.trim() || fileInput.files.length > 0 || audioChunks.length > 0) {
+          envoyerMessage();
+        }
+      });
+
+      sendButton.addEventListener('click', () => {
+        if (sendButton.classList.contains('active')) {
+          envoyerMessage();
+        }
+      });
+
+      function envoyerMessage() {
+        const message = userInput.value.trim();
+        const file = fileInput.files[0];
+
+        if (message || file || audioChunks.length > 0) {
+          if (message) {
+            const chatMessage = document.createElement('div');
+            chatMessage.className = 'chat-message';
+            chatMessage.textContent = message;
+            chatArea.appendChild(chatMessage);
+          }
+
+          if (file) {
+            const fileMessage = document.createElement('div');
+            fileMessage.className = 'file-message';
+            fileMessage.textContent = `Fichier: ${file.name}`;
+            chatArea.appendChild(fileMessage);
+          }
+
+          if (audioChunks.length > 0) {
+            const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+            const audioUrl = URL.createObjectURL(audioBlob);
+            const audioMessage = document.createElement('div');
+            audioMessage.className = 'voice-message';
+            const audioElement = document.createElement('audio');
+            audioElement.controls = true;
+            audioElement.src = audioUrl;
+            audioMessage.appendChild(audioElement);
+            chatArea.appendChild(audioMessage);
+          }
+
+          featuresSection.style.display = 'none';
+          userInput.value = '';
+          fileInput.value = '';
+          filePreview.style.display = 'none';
+          sendButton.classList.remove('active');
+          audioChunks = [];
+          chatArea.scrollTop = chatArea.scrollHeight;
+        }
+      }
+
+      fileInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          fileName.textContent = file.name;
+          filePreview.style.display = 'block';
+        }
+      });
+
+      removeFileButton.addEventListener('click', () => {
+        fileInput.value = '';
+        filePreview.style.display = 'none';
+      });
+
+      async function startRecording() {
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+          mediaRecorder = new MediaRecorder(stream);
+          mediaRecorder.ondataavailable = (e) => audioChunks.push(e.data);
+          mediaRecorder.onstop = () => envoyerMessage();
+          mediaRecorder.start();
+        } catch (error) {
+          alert("Permission d'accès au microphone refusée.");
+        }
+      }
+    </script>
+  </body>
+</html>

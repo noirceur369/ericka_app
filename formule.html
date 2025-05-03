@@ -1,0 +1,711 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Plans de tarification</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap"
+        rel="stylesheet"
+    />
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Inter", sans-serif;
+        }
+
+        .pricing-container {
+            max-width: 1200px; /* Augmentation de la largeur max pour les écrans plus grands */
+            margin-left: auto;
+            margin-right: auto;
+            display: flex;
+            flex-direction: row; /* Changement pour afficher les plans en ligne par défaut */
+            align-items: flex-start; /* Alignement au début pour les différentes hauteurs */
+            gap: 20px; /* Réduction de l'espacement pour les écrans plus petits */
+            padding: 20px;
+            justify-content: center; /* Centrer les plans sur les écrans plus larges */
+        }
+
+        .pricing-plan {
+            width: 300px; /* Légère réduction de la largeur par défaut */
+            border-radius: 15px;
+            border: 1px solid rgba(60, 60, 67, 0.29);
+            position: relative;
+            flex-grow: 1; /* Permettre aux plans de grandir et de se répartir l'espace */
+        }
+
+        .recommended-badge {
+            color: #fff;
+            font-family: "Inter", sans-serif;
+            font-size: 0.7rem; /* Ajustement de la taille de la police */
+            font-weight: 700;
+            line-height: 1; /* Simplification de la hauteur de ligne */
+            text-transform: uppercase;
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 22px;
+            background-color: #4373d8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 15px 15px 0 0;
+            padding: 5px; /* Ajout de padding pour un meilleur aspect sur les petits écrans */
+        }
+
+        .plan-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 0; /* Ajustement du padding vertical */
+            height: 100px; /* Légère augmentation de la hauteur */
+            border-radius: 15px 15px 0 0;
+        }
+
+        .plan-icon {
+            width: 20px; /* Légère réduction de la taille de l'icône */
+            height: 20px;
+            margin-bottom: 8px; /* Ajustement de la marge */
+        }
+
+        .plan-title {
+            color: #fff;
+            font-family: "Inter", sans-serif;
+            font-size: 1.1rem; /* Ajustement de la taille de la police */
+            font-weight: 700;
+            line-height: 1.2; /* Ajustement de la hauteur de ligne */
+            letter-spacing: 0.2px;
+            text-align: center; /* Centrer le titre */
+        }
+
+        .plan-price {
+            color: #000;
+            font-family: "Inter", sans-serif;
+            font-size: 0.8rem; /* Ajustement de la taille de la police */
+            font-weight: 700;
+            line-height: 1.2;
+            letter-spacing: 0.2px;
+            margin-top: 5px; /* Ajustement de la marge */
+        }
+
+        .plan-content {
+            padding: 15px;
+        }
+
+        .feature-section {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px; /* Léger ajustement de l'espacement */
+            margin-bottom: 8px; /* Léger ajustement de la marge */
+        }
+
+        .check-icon {
+            width: 12px; /* Légère réduction de la taille de l'icône */
+            height: 12px;
+            flex-shrink: 0;
+        }
+
+        .feature-title {
+            color: #4c5359;
+            font-family: "Inter", sans-serif;
+            font-size: 0.8rem; /* Ajustement de la taille de la police */
+            font-weight: 700;
+            line-height: 1.2;
+            letter-spacing: 0.2px;
+        }
+
+        .feature-description {
+            color: #4c5359;
+            font-family: "Inter", sans-serif;
+            font-size: 0.8rem; /* Ajustement de la taille de la police */
+            font-weight: 400;
+            line-height: 1.2;
+            letter-spacing: 0.2px;
+        }
+
+        /* Plan specific styles */
+        .annual-plan .plan-header {
+            background: linear-gradient(263deg, #ff9f6b 0%, #ffc45e 100.77%);
+        }
+
+        .semester-plan .plan-header,
+        .quarter-plan .plan-header,
+        .monthly-plan .plan-header {
+            background: linear-gradient(263deg, #4373d8 0%, #91ff5e 100.77%);
+        }
+
+        .daily-plan .plan-header {
+            background: linear-gradient(263deg, #074cc4 0%, #29c5ff 100.77%);
+        }
+
+        .task-plan .plan-header {
+            background-color: #4373d8;
+        }
+
+        /* Media query pour les écrans de 991px et moins (tablettes et téléphones) */
+        @media (max-width: 991px) {
+            .pricing-container {
+                flex-direction: column; /* Afficher les plans en colonne sur les écrans plus petits */
+                align-items: center; /* Centrer les plans */
+                padding: 15px;
+                gap: 20px;
+            }
+
+            .pricing-plan {
+                width: 100%; /* Les plans prennent toute la largeur de l'écran */
+            }
+        }
+
+        /* Media query pour les écrans de 640px et moins (téléphones) */
+        @media (max-width: 640px) {
+            .pricing-container {
+                padding: 10px;
+                gap: 15px;
+            }
+
+            .pricing-plan {
+                padding: 10px; /* Ajouter un peu de padding interne aux plans sur les petits écrans */
+            }
+
+            .plan-header {
+                padding: 8px 0;
+                height: auto; /* Ajuster la hauteur automatiquement */
+            }
+
+            .plan-icon {
+                margin-bottom: 5px;
+            }
+
+            .plan-title {
+                font-size: 1rem;
+            }
+
+            .plan-price {
+                font-size: 0.75rem;
+            }
+
+            .feature-section {
+                gap: 5px;
+                margin-bottom: 6px;
+            }
+
+            .feature-title,
+            .feature-description {
+                font-size: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="pricing-container">
+        <article id="annual" class="pricing-plan annual-plan">
+            <div class="recommended-badge">RECOMMANDÉ</div>
+            <header class="plan-header">
+                <svg
+                    class="plan-icon"
+                    width="25"
+                    height="24"
+                    viewBox="0 0 25 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+                    <rect
+                        x="5.2998"
+                        y="0.799988"
+                        width="14.4"
+                        height="22.4"
+                        rx="3"
+                        stroke="white"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                    ></rect>
+                    <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M8.5 1.54132H16.5L15.9764 2.58853C15.807 2.92732 15.4607 3.14132 15.082 3.14132H9.91803C9.53926 3.14132 9.193 2.92732 9.02361 2.58853L8.5 1.54132Z"
+                        fill="white"
+                    ></path>
+                    <path
+                        d="M13.8619 11.9005L15.452 12.7647L14.7372 13.9659L13.1325 13.0138L13.1616 14.7863H11.7904L11.8049 12.9991L10.2002 13.9659L9.5 12.7647L11.0901 11.9005L9.5 11.0215L10.2002 9.82033L11.8049 10.7871L11.7904 9H13.1616L13.1325 10.7871L14.7372 9.82033L15.452 11.0215L13.8619 11.9005Z"
+                        fill="white"
+                    ></path>
+                </svg>
+                <h2 class="plan-title">Plan annuel</h2>
+                <p class="plan-price">25 000 FCFA/an</p>
+            </header>
+            <div class="plan-content">
+                <section class="feature-section">
+                    <svg
+                        class="check-icon"
+                        width="15"
+                        height="15"
+                        viewBox="0 0 15 15"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <path
+                            d="M3 9.00006L4.92929 10.9294C4.96834 10.9684 5.03166 10.9684 5.07071 10.9294L12 4.00006"
+                            stroke="#4373D8"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                        ></path>
+                    </svg>
+                    <h3 class="feature-title">Avantages :</h3>
+                    <p class="feature-description">
+                        Le plus économique à long terme (≈ 2 083 FCFA/mois). Tranquillité
+                        d'esprit pendant 12 mois (aucun renouvellement fréquent). Idéal
+                        pour les étudiants engagés dans leurs études toute l'année. Accès
+                        illimité, parfait pour un usage quotidien ou intensif.
+                    </p>
+                </section>
+                <section class="feature-section">
+                    <svg
+                        class="check-icon"
+                        width="15"
+                        height="15"
+                        viewBox="0 0 15 15"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <path
+                            d="M3 9.00006L4.92929 10.9294C4.96834 10.9684 5.03166 10.9684 5.07071 10.9294L12 4.00006"
+                            stroke="#4373D8"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                        ></path>
+                    </svg>
+                    <h3 class="feature-title">Public cible :</h3>
+                    <p class="feature-description">
+                        Étudiants motivés, réguliers. Parents qui veulent investir une
+                        fois pour toute l'année scolaire de leurs enfants.
+                    </p>
+                </section>
+            </div>
+        </article>
+
+        <article id="semester" class="pricing-plan semester-plan">
+            <header class="plan-header">
+                <svg
+                    class="plan-icon"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+                    <rect
+                        x="4.7998"
+                        y="0.799988"
+                        width="14.4"
+                        height="22.4"
+                        rx="3"
+                        stroke="white"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                    ></rect>
+                    <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M8 1.54132H16L15.4764 2.58853C15.307 2.92732 14.9607 3.14132 14.582 3.14132H9.41803C9.03926 3.14132 8.693 2.92732 8.52361 2.58853L8 1.54132Z"
+                        fill="white"
+                    ></path>
+                    <path
+                        d="M13.3619 11.9005L14.952 12.7647L14.2372 13.9659L12.6325 13.0138L12.6616 14.7863H11.2904L11.3049 12.9991L9.70024 13.9659L9 12.7647L10.5901 11.9005L9 11.0215L9.70024 9.82033L11.3049 10.7871L11.2904 9H12.6616L12.6325 10.7871L14.2372 9.82033L14.952 11.0215L13.3619 11.9005Z"
+                        fill="white"
+                    ></path>
+                </svg>
+                <h2 class="plan-title">Plan semestriel</h2>
+                <p class="plan-price">15 000 FCFA</p>
+            </header>
+            <div class="plan-content">
+                <section class="feature-section">
+                    <svg
+                        class="check-icon"
+                        width="15"
+                        height="15"
+                        viewBox="0 0 15 15"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M3 9.00006L4.92929 10.9294C4.96834 10.9684 5.03166 10.9684 5.07071 10.9294L12 4.00006"
+                            stroke="#4373D8"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                        ></path>
+                    </svg>
+                    <h3 class="feature-title">Avantages :</h3>
+                    <p class="feature-description">
+                        Bon compromis entre prix et durée. Moins cher que deux plans
+                        trimestriels (8 000 × 2 = 16 000 FCFA). Idéal pour les semestres
+                        universitaires ou scolaires. Flexibilité avec une économie par
+                        rapport au plan mensuel.
+                    </p>
+                </section>
+                <section class="feature-section">
+                    <svg
+                        class="check-icon"
+                        width="15"
+                        height="15"
+                        viewBox="0 0 15 15"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <path
+                            d="M3 9L4.92929 10.9293C4.96834 10.9683 5.03166 10.9683 5.07071 10.9293L12 4"
+                            stroke="#4373D8"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                        ></path>
+                    </svg>
+                    <h3 class="feature-title">Public cible :</h3>
+                    <p class="feature-description">
+                        Étudiants suivant un semestre intensif ou en préparation
+                        d'examens. Parents qui préfèrent payer par tranche plutôt
+                        qu'annuellement.
+                    </p>
+                </section>
+            </div>
+        </article>
+
+        <article id="quarter" class="pricing-plan quarter-plan">
+            <header class="plan-header">
+                <svg
+                    class="plan-icon"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+                    <rect
+                        x="4.7998"
+                        y="0.800049"
+                        width="14.4"
+                        height="22.4"
+                        rx="3"
+                        stroke="white"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                    ></rect>
+                    <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M8 1.54138H16L15.4764 2.58859C15.307 2.92738 14.9607 3.14138 14.582 3.14138H9.41803C9.03926 3.14138 8.693 2.92738 8.52361 2.5886L8 1.54138Z"
+                        fill="white"
+                    ></path>
+                    <path
+                        d="M13.3619 11.9005L14.952 12.7647L14.2372 13.9659L12.6325 13.0138L12.6616 14.7863H11.2904L11.3049 12.9991L9.70024 13.9659L9 12.7647L10.5901 11.9005L9 11.0215L9.70024 9.82033L11.3049 10.7871L11.2904 9H12.6616L12.6325 10.7871L14.2372 9.82033L14.952 11.0215L13.3619 11.9005Z"
+                        fill="white"
+                    ></path>
+                </svg>
+                <h2 class="plan-title">Plan trimestriel</h2>
+                <p class="plan-price">8 000 FCFA</p>
+            </header>
+            <div class="plan-content">
+                <section class="feature-section">
+                    <svg
+                        class="check-icon"
+                        width="15"
+                        height="15"
+                        viewBox="0 0 15 15"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <path
+                            d="M3 9L4.92929 10.9293C4.96834 10.9683 5.03166 10.9683 5.07071 10.9293L12 4"
+                            stroke="#4373D8"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                        ></path>
+                    </svg>
+                    <h3 class="feature-title">Avantages :</h3>
+                    <p class="feature-description">
+                        Flexibilité sur 3 mois (≈ 2 667 FCFA/mois) Moins cher que 3 mois
+                        de plan mensuel (3 000 × 3 = 9 000 FCFA). Idéal pour les révisions
+                        de fin de trimestre ou les périodes de projets.
+                    </p>
+                </section>
+                <section class="feature-section">
+                    <svg
+                        class="check-icon"
+                        width="15"
+                        height="15"
+                        viewBox="0 0 15 15"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <path
+                            d="M3 9L4.92929 10.9293C4.96834 10.9683 5.03166 10.9683 5.07071 10.9293L12 4"
+                            stroke="#4373D8"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                        ></path>
+                    </svg>
+                    <h3 class="feature-title">Public cible :</h3>
+                    <p class="feature-description">
+                        Étudiants préparant un devoir de fin de trimestre ou une
+                        soutenance. Personnes qui veulent tester ERICKA pendant une
+                        période moyenne.
+                    </p>
+                </section>
+            </div>
+        </article>
+
+        <article id="monthly" class="pricing-plan monthly-plan">
+            <header class="plan-header">
+                <svg
+                    class="plan-icon"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+                    <rect
+                        x="4.7998"
+                        y="0.800049"
+                        width="14.4"
+                        height="22.4"
+                        rx="3"
+                        stroke="white"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                    ></rect>
+                    <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M8 1.54138H16L15.4764 2.58859C15.307 2.92738 14.9607 3.14138 14.582 3.14138H9.41803C9.03926 3.14138 8.693 2.92738 8.52361 2.5886L8 1.54138Z"
+                        fill="white"
+                    ></path>
+                    <path
+                        d="M13.3619 11.9005L14.952 12.7647L14.2372 13.9659L12.6325 13.0138L12.6616 14.7863H11.2904L11.3049 12.9991L9.70024 13.9659L9 12.7647L10.5901 11.9005L9 11.0215L9.70024 9.82033L11.3049 10.7871L11.2904 9H12.6616L12.6325 10.7871L14.2372 9.82033L14.952 11.0215L13.3619 11.9005Z"
+                        fill="white"
+                    ></path>
+                </svg>
+                <h2 class="plan-title">Plan mensuel</h2>
+                <p class="plan-price">3 000 FCFA/mois</p>
+            </header>
+            <div class="plan-content">
+                <section class="feature-section">
+                    <svg
+                        class="check-icon"
+                        width="15"
+                        height="15"
+                        viewBox="0 0 15 15"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <path
+                            d="M3 9L4.92929 10.9293C4.96834 10.9683 5.03166 10.9683 5.07071 10.9293L12 4"
+                            stroke="#4373D8"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                        ></path>
+                    </svg>
+                    <h3 class="feature-title">Avantages :</h3>
+                    <p class="feature-description">
+                        Très accessible. Parfait pour tester la plateforme avant un
+                        engagement plus long. Idéal pour les mois chargés : partiels,
+                        exposés, devoirs, concours, etc.
+                    </p>
+                </section>
+                <section class="feature-section">
+                    <svg
+                        class="check-icon"
+                        width="15"
+                        height="15"
+                        viewBox="0 0 15 15"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <path
+                            d="M3 9L4.92929 10.9293C4.96834 10.9683 5.03166 10.9683 5.07071 10.9293L12 4"
+                            stroke="#4373D8"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                        ></path>
+                    </svg>
+                    <h3 class="feature-title">Public cible :</h3>
+                    <p class="feature-description">
+                        Étudiants avec un budget mensuel limité. Nouveaux utilisateurs
+                        souhaitant évaluer l'utilité du service.
+                    </p>
+                </section>
+            </div>
+        </article>
+
+        <article id="daily" class="pricing-plan daily-plan">
+            <header class="plan-header">
+                <svg
+                    class="plan-icon"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+                    <rect
+                        x="4.7998"
+                        y="0.800049"
+                        width="14.4"
+                        height="22.4"
+                        rx="3"
+                        stroke="white"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                    ></rect>
+                    <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M8 1.54138H16L15.4764 2.58859C15.307 2.92738 14.9607 3.14138 14.582 3.14138H9.41803C9.03926 3.14138 8.693 2.92738 8.52361 2.5886L8 1.54138Z"
+                        fill="white"
+                    ></path>
+                    <path
+                        d="M13.3619 11.9005L14.952 12.7647L14.2372 13.9659L12.6325 13.0138L12.6616 14.7863H11.2904L11.3049 12.9991L9.70024 13.9659L9 12.7647L10.5901 11.9005L9 11.0215L9.70024 9.82033L11.3049 10.7871L11.2904 9H12.6616L12.6325 10.7871L14.2372 9.82033L14.952 11.0215L13.3619 11.9005Z"
+                        fill="white"
+                    ></path>
+                </svg>
+                <h2 class="plan-title">Plan journalier</h2>
+                <p class="plan-price">1 000 FCFA/jour</p>
+            </header>
+            <div class="plan-content">
+                <section class="feature-section">
+                    <svg
+                        class="check-icon"
+                        width="15"
+                        height="15"
+                        viewBox="0 0 15 15"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <path
+                            d="M3 9L4.92929 10.9293C4.96834 10.9683 5.03166 10.9683 5.07071 10.9293L12 4"
+                            stroke="#4373D8"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                        ></path>
+                    </svg>
+                    <h3 class="feature-title">Avantages :</h3>
+                    <p class="feature-description">
+                        Ultra accessible pour un besoin immédiat. Bon pour tester ERICKA
+                        rapidement ou pour une journée d'étude intensive. Moins engageant
+                        que les autres formules.
+                    </p>
+                </section>
+                <section class="feature-section">
+                    <svg
+                        class="check-icon"
+                        width="15"
+                        height="15"
+                        viewBox="0 0 15 15"
+                        fill="none"
+                        xmlns="http://www.www.w3.org/2000/svg"
+                    >
+                        <path
+                            d="M3 9L4.92929 10.9293C4.96834 10.9683 5.03166 10.9683 5.07071 10.9293L12 4"
+                            stroke="#4373D8"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                        ></path>
+                    </svg>
+                    <h3 class="feature-title">Public cible :</h3>
+                    <p class="feature-description">
+                        Étudiants à la veille d'un devoir ou d'un exposé. Utilisateurs
+                        occasionnels.
+                    </p>
+                </section>
+            </div>
+        </article>
+
+        <article id="task" class="pricing-plan task-plan">
+            <header class="plan-header">
+                <svg
+                    class="plan-icon"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+                    <rect
+                        x="4.7998"
+                        y="0.800049"
+                        width="14.4"
+                        height="22.4"
+                        rx="3"
+                        stroke="white"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                    ></rect>
+                    <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M8 1.54126H16L15.4764 2.58847C15.307 2.92726 14.9607 3.14126 14.582 3.14126H9.41803C9.03926 3.14126 8.693 2.92726 8.52361 2.58847L8 1.54126Z"
+                        fill="white"
+                    ></path>
+                    <path
+                        d="M13.3619 11.9005L14.952 12.7647L14.2372 13.9659L12.6325 13.0138L12.6616 14.7863H11.2904L11.3049 12.9991L9.70024 13.9659L9 12.7647L10.5901 11.9005L9 11.0215L9.70024 9.82033L11.3049 10.7871L11.2904 9H12.6616L12.6325 10.7871L14.2372 9.82033L14.952 11.0215L13.3619 11.9005Z"
+                        fill="white"
+                    ></path>
+                </svg>
+                <h2 class="plan-title">Plan à la tâche</h2>
+                <p class="plan-price">200 FCFA</p>
+            </header>
+            <div class="plan-content">
+                <section class="feature-section">
+                    <svg
+                        class="check-icon"
+                        width="15"
+                        height="15"
+                        viewBox="0 0 15 15"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <path
+                            d="M3 9L4.92929 10.9293C4.96834 10.9683 5.03166 10.9683 5.07071 10.9293L12 4"
+                            stroke="#4373D8"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                        ></path>
+                    </svg>
+                    <h3 class="feature-title">Avantages :</h3>
+                    <p class="feature-description">
+                        Paiement uniquement à l'usage. Convient à des demandes simples :
+                        une correction, une définition, un devoir. Très bas prix, donc
+                        accessible à tous.
+                    </p>
+                </section>
+                <section class="feature-section">
+                    <svg
+                        class="check-icon"
+                        width="15"
+                        height="15"
+                        viewBox="0 0 15 15"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <path
+                            d="M3 9L4.92929 10.9293C4.96834 10.9683 5.03166 10.9683 5.07071 10.9293L12 4"
+                            stroke="#4373D8"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                        ></path>
+                    </svg>
+                    <h3 class="feature-title">Public cible :</h3>
+                    <p class="feature-description">
+                        Étudiants très occasionnels. Ceux qui ont juste besoin d'un coup
+                        de pouce ponctuel.
+                    </p>
+                </section>
+            </div>
+        </article>
+    </main>
+</body>
+</html>

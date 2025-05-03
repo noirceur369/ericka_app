@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Paiement Mobile Money</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      position: relative;
+      max-width: 400px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+    }
+
+    .logos {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .logos img {
+      height: 40px;
+      object-fit: contain;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+      text-align: left;
+    }
+
+    .form-group label {
+      font-size: 14px;
+      color: #333;
+      margin-bottom: 5px;
+      display: block;
+    }
+
+    .form-group select, .form-group input {
+      width: calc(100% - 22px); /* Ajustement pour la bordure et le padding */
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box; /* Important pour inclure padding et border dans la largeur */
+    }
+
+    .submit-btn {
+      width: calc(100% - 22px); /* Même largeur que les champs */
+      padding: 10px; /* Même padding que les champs */
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 5px; /* Même border-radius que les champs */
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 10px;
+      box-sizing: border-box; /* Important pour l'alignement de la largeur */
+    }
+
+    .submit-btn:hover {
+      background-color: #218838;
+    }
+
+    /* Bouton retour avec icône */
+    .back-btn {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background-color: transparent;
+      border: none;
+      font-size: 24px;
+      color: #007bff;
+      cursor: pointer;
+    }
+
+    .back-btn:hover {
+      color: #0056b3;
+    }
+  </style>
+
+  <script>
+    function updateMaxLength() {
+      var country = document.getElementById("country_code").value;
+      var numberInput = document.getElementById("mobile_number");
+
+      const maxLengths = {
+        "+225": 8,   // Côte d'Ivoire
+        "+229": 8,   // Bénin
+        "+226": 8,   // Burkina Faso
+        "+223": 8,   // Mali
+        "+228": 8,   // Togo
+        "+221": 9,   // Sénégal
+        "+237": 9,   // Cameroun
+        "+234": 10   // Nigeria
+      };
+
+      numberInput.maxLength = maxLengths[country] || 15;
+    }
+  </script>
+
+</head>
+
+<body>
+
+<div class="container">
+  <button class="back-btn" onclick="window.location.href='options_paiement2.html'">
+    <span class="material-icons">arrow_back</span>
+  </button>
+
+  <h2>Paiement Mobile Money</h2>
+
+  <div class="logos">
+    <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/b158039ab12d29a92008d17362bbd4df895d2625" class="payment-icon" alt="Mobile money 1" />
+    <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/5c89760b3363f133d98748c1029fc3300f634974" class="payment-icon" alt="Mobile money 2" />
+    <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/619cfb4d9d8d94a4b72dbbd96a90dc1ff426a838" class="payment-icon" alt="Mobile money 3" />
+    <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/73b96beeaea0635ff6711be132abac839889bd12" class="payment-icon" alt="Mobile money 4" />
+  </div>
+
+  <form action="validate.html" method="post">
+
+    <div class="form-group">
+      <label for="network">Choisissez votre opérateur</label>
+      <select id="network" name="network" required>
+        <option value="">-- Sélectionnez un réseau --</option>
+        <option value="Orange Money">Orange Money</option>
+        <option value="Moov Money">Moov Money</option>
+        <option value="MTN Mobile Money">MTN Mobile Money</option>
+        <option value="Free Money">Free Money</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="country_code">Choisissez votre indicatif</label>
+      <select id="country_code" name="country_code" onchange="updateMaxLength()" required>
+        <option value="">-- Sélectionnez un pays --</option>
+        <option value="+225">Côte d'Ivoire (+225)</option>
+        <option value="+229">Bénin (+229)</option>
+        <option value="+226">Burkina Faso (+226)</option>
+        <option value="+223">Mali (+223)</option>
+        <option value="+228">Togo (+228)</option>
+        <option value="+221">Sénégal (+221)</option>
+        <option value="+237">Cameroun (+237)</option>
+        <option value="+234">Nigeria (+234)</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="mobile_number">Numéro Mobile Money</label>
+      <input type="number" id="mobile_number" name="mobile_number" required placeholder="Entrez votre numéro" maxlength="15">
+    </div>
+
+    <button type="submit" class="submit-btn">Valider</button>
+  </form>
+</div>
+
+</body>
+</html>

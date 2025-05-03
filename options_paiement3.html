@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Widget de Paiement</title>
+  <style>
+    /* ... (ton style reste exactement identique) ... */
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #f2f2f2;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+    }
+
+    .payment-widget {
+      background: #ffffff;
+      border-radius: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      max-width: 400px;
+      width: 100%;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      margin-top: 20px;
+    }
+
+    .top-banner {
+      background-color: #e53935;
+      width: 100%;
+      padding: 20px;
+      position: relative;
+      border-top-left-radius: 20px;
+      border-top-right-radius: 20px;
+      text-align: center;
+    }
+
+    .back-button {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      background: white;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .back-button:before {
+      content: "←";
+      font-size: 18px;
+      color: #e53935;
+    }
+
+    .top-banner-text {
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .top-banner-subtext {
+      color: white;
+      font-size: 12px;
+      opacity: 0.8;
+    }
+
+    .payment-container {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .payment-methods-title {
+      font-size: 18px;
+      margin: 15px 0;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .payment-option {
+      background: white;
+      border-radius: 30px;
+      padding: 10px 20px;
+      margin-bottom: 15px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      cursor: pointer;
+      position: relative;
+      transition: border 0.3s;
+    }
+
+    .payment-option.selected {
+      border: 2px solid #e53935;
+    }
+
+    .payment-option h3 {
+      font-size: 16px;
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    .payment-option-icons-container {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .payment-icon, .card-icon, .discount-logo {
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
+    }
+
+    .discount-logo {
+      width: 100px;
+      height: auto;
+    }
+
+    .selected-check {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #4CAF50;
+      color: white;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      font-size: 14px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      display: none;
+    }
+
+    .payment-option.selected .selected-check {
+      display: flex;
+    }
+
+    .input-container {
+      margin-top: 20px;
+      width: 100%;
+    }
+
+    .input-label {
+      font-size: 14px;
+      margin-bottom: 5px;
+      text-align: left;
+      display: block;
+      color: #333;
+    }
+
+    .input-field {
+      border: 1px solid #ccc;
+      border-radius: 20px;
+      padding: 12px;
+      background: #fff;
+      width: 100%;
+      font-size: 16px;
+      outline: none;
+    }
+
+    .payment-button-container {
+      margin-top: 25px;
+      width: 100%;
+    }
+
+    .payment-button {
+      width: 100%;
+      background-color: #e53935;
+      color: white;
+      padding: 15px;
+      border: none;
+      border-radius: 30px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .payment-button:hover {
+      background-color: #d32f2f;
+    }
+
+    .footer-info-container {
+      margin-top: 15px;
+      text-align: center;
+      font-size: 12px;
+      color: #555;
+    }
+
+    .terms-link {
+      color: #e53935;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .security-info-wrapper {
+      margin-top: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .security-logo {
+      width: 100px;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="payment-widget">
+  <div class="top-banner">
+    <div class="back-button" onclick="alert('Retour')"></div>
+    <div class="top-banner-text">Total à payer<br>$montant Fcfa *</div>
+    <div class="top-banner-subtext">(*) 25% de bonus</div>
+  </div>
+
+  <div class="payment-container">
+    <h2 class="payment-methods-title">Sélectionnez un moyen de paiement</h2>
+
+    <div class="payment-option" data-link="mmoney.html" onclick="selectOption(this)">
+      <h3>Mobile Money</h3>
+      <div class="payment-option-icons-container">
+        <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/b158039ab12d29a92008d17362bbd4df895d2625" class="payment-icon" alt="Mobile money 1" />
+        <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/5c89760b3363f133d98748c1029fc3300f634974" class="payment-icon" alt="Mobile money 2" />
+        <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/619cfb4d9d8d94a4b72dbbd96a90dc1ff426a838" class="payment-icon" alt="Mobile money 3" />
+        <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/73b96beeaea0635ff6711be132abac839889bd12" class="payment-icon" alt="Mobile money 4" />
+      </div>
+      <div class="selected-check">✔</div>
+    </div>
+
+    <div class="payment-option" data-link="cb.html" onclick="selectOption(this)">
+      <h3>Carte bancaire</h3>
+      <div class="payment-option-icons-container">
+        <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/5b5ff70976bffd37cecae13bf199088acd5c659b" class="payment-icon" alt="Visa" />
+        <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/0a5a0f76e223e11b916b882c8dc7b7ca106d817a" class="payment-icon" alt="Mastercard" />
+        <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/90aec37e6d8621f951beb70b40a581099c886b9b" class="payment-icon" alt="Carte" />
+      </div>
+      <div class="selected-check">✔</div>
+    </div>
+
+    <div class="payment-option" id="discountPay" onclick="selectOption(this)">
+      <h3>Discount Pay</h3>
+      <div class="payment-option-icons-container">
+        <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/5d098052520ecd25f69c28d459751a0e1f1a8390" class="discount-logo" alt="Discount Pay" />
+      </div>
+      <div class="selected-check">✔</div>
+    </div>
+
+    <div class="input-container">
+      <label class="input-label" for="card-id">ID de votre carte</label>
+      <input type="text" id="card-id" name="card-id" class="input-field" placeholder="Entrez l'ID ici" />
+    </div>
+
+    <div class="payment-button-container">
+      <form action="validate.html" method="get">
+        <button type="submit" class="payment-button">Payer $montant Fcfa</button>
+      </form>
+    </div>
+
+    <div class="footer-info-container">
+      <p>En payant par <strong>Discount Pay</strong>, vous acceptez les 
+      <a href="#" class="terms-link">Conditions générales d'utilisation</a></p>
+      <div class="security-info-wrapper">
+        <p>Paiement sécurisé fourni par</p>
+        <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/a392ab139eb6c9bdaf7bf5efdcd51d6ca35e5f75" class="security-logo" alt="Security Logo" />
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function selectOption(selected) {
+  document.querySelectorAll('.payment-option').forEach(option => {
+    option.classList.remove('selected');
+  });
+  selected.classList.add('selected');
+
+  const link = selected.getAttribute('data-link');
+  if (link) {
+    setTimeout(() => {
+      window.location.href = link;
+    }, 200);
+  }
+}
+
+// Sélectionner automatiquement Discount Pay au chargement
+window.onload = function() {
+  const discountPayOption = document.getElementById('discountPay');
+  if (discountPayOption) {
+    selectOption(discountPayOption);
+  }
+};
+</script>
+
+</body>
+</html>

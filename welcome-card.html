@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Welcome Card</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh; /* Assure que le body prend au moins toute la hauteur de l'écran */
+            background-color: #f5f5f5; /* Couleur d'arrière-plan claire */
+        }
+
+        .welcome-card {
+            border-radius: 15px;
+            background-color: rgba(255, 255, 255, 1);
+            display: flex;
+            max-width: 390px;
+            padding: 20px 15px;
+            flex-direction: column;
+            align-items: center;
+            font-family:
+                Inter,
+                -apple-system,
+                Roboto,
+                Helvetica,
+                sans-serif;
+            font-weight: 700;
+            text-align: center;
+            justify-content: start;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Ajout d'une légère ombre */
+        }
+
+        .image-container {
+            width: 281px;
+            max-width: 100%;
+            font-family:
+                "SF Pro Display",
+                -apple-system,
+                Roboto,
+                Helvetica,
+                sans-serif;
+            font-size: 32px;
+            white-space: nowrap;
+            letter-spacing: -0.64px;
+            line-height: 1;
+        }
+
+        .image-wrapper {
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            aspect-ratio: 1.029;
+            width: 100%;
+            padding: 52px 28px;
+            align-items: stretch;
+            justify-content: center;
+        }
+
+        .background-image {
+            position: absolute;
+            inset: 0;
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+            object-position: center;
+            border-radius: 15px; /* Pour que l'image suive le border-radius de la carte */
+        }
+
+        .circle-overlay {
+            position: relative;
+            border-radius: 160px;
+            background-color: rgba(255, 255, 255, 1);
+            display: flex;
+            min-height: 170px;
+            padding: 0 10px;
+            align-items: center;
+            gap: 10px;
+            width: 170px;
+            justify-content: center;
+            height: 170px;
+            z-index: 1; /* Pour être au-dessus de l'image de fond */
+        }
+
+        .welcome-text {
+            background: linear-gradient(90deg, #ffd029 0%, #29b738 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            align-self: stretch;
+            margin-top: auto;
+            margin-bottom: auto;
+        }
+
+        .welcome-message {
+            align-self: stretch;
+            width: 100%;
+            margin-top: 25px;
+            gap: 10px;
+            font-size: 14px;
+            color: #4c5359;
+            font-weight: 500;
+            line-height: 1.2; /* Amélioration de la lisibilité */
+        }
+
+        .button-container {
+            margin-top: 25px;
+            width: 100%;
+            max-width: 360px;
+            font-size: 18px;
+            color: #fff;
+            white-space: nowrap;
+            letter-spacing: 0.2px;
+            line-height: 1.6;
+        }
+
+        .home-button {
+            align-self: stretch;
+            flex: 1;
+            flex-shrink: 1;
+            flex-basis: 0%;
+            border-radius: 20px;
+            background-color: #090909;
+            min-height: 55px;
+            width: 100%;
+            padding: 13px 15px;
+            gap: 10px;
+            border: none;
+            color: #fff;
+            font-family:
+                Inter,
+                -apple-system,
+                Roboto,
+                Helvetica,
+                sans-serif;
+            font-weight: 700;
+            font-size: 18px;
+            cursor: pointer;
+            text-decoration: none; /* Pour enlever le soulignement par défaut des liens */
+            transition: background-color 0.2s ease-in-out; /* Ajout d'une transition pour l'effet hover */
+        }
+
+        .home-button:hover {
+            background-color: #222; /* Légère assombrissement au survol */
+        }
+    </style>
+</head>
+<body>
+    <main class="welcome-card">
+        <section class="image-container">
+            <div class="image-wrapper">
+                <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/a1bc8480bcf23448af27dd447a16c1fd314cf787?placeholderIfAbsent=true&apiKey=0c6e7759a5d8430c9f430f3ca8bbdf00" alt="Background image" class="background-image" />
+                <div class="circle-overlay">
+                    <h1 class="welcome-text">Bienvenue</h1>
+                </div>
+            </div>
+        </section>
+        <p class="welcome-message">
+            <strong>Nous sommes heureux de vous revoir</strong>
+        </p>
+        <div class="button-container">
+            <a href="echanges.html" class="home-button" target="_blank">Accueil</a>
+        </div>
+    </main>
+</body>
+</html>

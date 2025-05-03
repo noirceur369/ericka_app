@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Création de code PIN</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: 'Poppins', sans-serif;
+        background-color: #ffffff;
+        color: #111111;
+        width: 100%;
+        height: 100vh;
+      }
+
+      .screen-wrapper {
+        width: 100%;
+        height: 100vh;
+        background-color: #ffffff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .phone-container {
+        width: 360px;
+        height: 600px; /* Hauteur réduite */
+        background: #f8f8f8;
+        border-radius: 40px;
+        padding: 24px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        position: relative;
+        cursor: pointer;
+      }
+
+      .main-heading {
+        color: #090909;
+        font-family: "SF Pro Display", -apple-system, Roboto, Helvetica, sans-serif;
+        font-size: 32px;
+        font-weight: 700;
+        line-height: 40px;
+        letter-spacing: -0.64px;
+        margin-top: 30px;
+        text-align: left;
+      }
+
+      .info-box {
+        width: 100%;
+        border-radius: 20px;
+        background-color: rgba(67, 115, 216, 0.1);
+        margin-top: 21px;
+        min-height: 83px;
+        max-width: 360px;
+        padding: 20px;
+        font-family: Inter, -apple-system, Roboto, Helvetica, sans-serif;
+        font-size: 11px;
+        color: #4c5359;
+        font-weight: 400;
+        text-align: center;
+        letter-spacing: 0.2px;
+        line-height: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .pin-dots-container {
+        display: flex;
+        justify-content: center;
+        gap: 16px;
+        margin-top: 32px;
+        pointer-events: none;
+      }
+
+      .pin-dot {
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        border: 2px solid #888;
+        background-color: transparent;
+        transition: background-color 0.2s ease;
+      }
+
+      .pin-dot.filled {
+        background-color: #4373d8;
+      }
+
+      .continue-button-container {
+        margin-top: 40px;
+        display: flex;
+        justify-content: center;
+      }
+
+      .continue-button {
+        padding: 12px 32px;
+        background-color: #ccc;
+        color: #fff;
+        border: none;
+        border-radius: 30px;
+        font-size: 16px;
+        cursor: not-allowed;
+        transition: background-color 0.3s ease;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 500;
+      }
+
+      .continue-button.active {
+        background-color: #111;
+        cursor: pointer;
+      }
+
+      #pin-input {
+        position: absolute;
+        opacity: 0;
+        pointer-events: none;
+      }
+      .back-button-container {
+            width: 100%;
+            display: flex;
+            justify-content: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .back-button {
+            border-radius: 20px;
+            background-color: #e0e0e0;
+            padding: 10px 15px;
+            gap: 10px;
+            font-family: "Inter", sans-serif;
+            font-size: 16px;
+            color: #090909;
+            font-weight: 500;
+            text-align: center;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.2s ease;
+        }
+
+        .back-button:hover {
+            background-color: #b3b3b3;
+        }
+    </style>
+  </head>
+  <body>
+    <div class="screen-wrapper">
+      <main class="phone-container" id="pin-wrapper">
+      <div class="back-button-container">
+            <button class="back-button"><a href="invitation.html" style="text-decoration: none; color: inherit;"><</a></button>
+        </div>
+        <h1 class="main-heading">Créez un code secret de votre compte</h1>
+
+        <section class="info-box">
+          <p>
+            Ce code secret vous permet d'accéder à votre compte virtuel.
+            <br />
+            Ce compte vous permet d'effectuer tout achat dans l'application.
+          </p>
+        </section>
+
+        <div class="pin-dots-container">
+          <span class="pin-dot" id="pin-dot-1" aria-hidden="true"></span>
+          <span class="pin-dot" id="pin-dot-2" aria-hidden="true"></span>
+          <span class="pin-dot" id="pin-dot-3" aria-hidden="true"></span>
+          <span class="pin-dot" id="pin-dot-4" aria-hidden="true"></span>
+        </div>
+
+        <input id="pin-input" type="password" maxlength="4" inputmode="numeric" autofocus />
+
+        <div class="continue-button-container">
+          <button class="continue-button" id="continue-button">Continuer</button>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      const pinInput = document.getElementById("pin-input");
+      const dots = [
+        document.getElementById("pin-dot-1"),
+        document.getElementById("pin-dot-2"),
+        document.getElementById("pin-dot-3"),
+        document.getElementById("pin-dot-4"),
+      ];
+      const continueButton = document.getElementById("continue-button");
+      const pinWrapper = document.getElementById("pin-wrapper");
+
+      function updateDotsFromValue(value) {
+        const digits = value.split("");
+        dots.forEach((dot, index) => {
+          dot.classList.toggle("filled", index < digits.length);
+        });
+
+        continueButton.classList.toggle("active", digits.length === 4);
+        continueButton.disabled = digits.length !== 4;
+      }
+
+      pinInput.addEventListener("input", () => {
+        const value = pinInput.value.replace(/\D/g, "").slice(0, 4);
+        pinInput.value = value;
+        updateDotsFromValue(value);
+      });
+
+      continueButton.addEventListener("click", () => {
+        if (pinInput.value.length === 4) {
+          window.location.href = "confirm.html";
+        }
+      });
+
+      window.addEventListener("load", () => {
+        pinInput.focus();
+      });
+
+      pinWrapper.addEventListener("click", () => {
+        pinInput.focus();
+      });
+    </script>
+  </body>
+</html>
